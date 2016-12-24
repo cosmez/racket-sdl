@@ -17,7 +17,6 @@
     (case type
       [(unix)     "libSDL2"]
       [(windows)  "SDL2"]
-      ;; correct? can't test on OS X
       [(macosx)   "libSDL2"]
       [else (error "Platform not supported: " type)])))
 
