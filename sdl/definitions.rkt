@@ -24,6 +24,10 @@
 
 (struct sdl-version (major minor patch) #:transparent)
 
+(define-syntax-rule (sdl-error e)
+  (when e
+    (error 'sdl (SDL_GetError))))
+
 ;;;
 ;;; Get C Definitions out
 ;;;
@@ -31,9 +35,11 @@
 
 ;;; SDL.h
 ;extern DECLSPEC int SDLCALL SDL_Init(Uint32 flags);
-(define-sdl SDL_Init (_fun _uint32 -> _int))
+(define-sdl SDL_Init (_fun _uint32 -> [e : _bool]
+                           -> (sdl-error e)))
 ;extern DECLSPEC int SDLCALL SDL_InitSubSystem(Uint32 flags);
-(define-sdl SDL_InitSubSystem (_fun _uint32 -> _int))
+(define-sdl SDL_InitSubSystem (_fun _uint32 -> [e : _bool]
+                                    -> (sdl-error e)))
 ;extern DECLSPEC void SDLCALL SDL_QuitSubSystem(Uint32 flags);
 (define-sdl SDL_QuitSubSystem (_fun _uint32 -> _void))
 ;extern DECLSPEC Uint32 SDLCALL SDL_WasInit(Uint32 flags);
