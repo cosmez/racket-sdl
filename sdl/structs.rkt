@@ -89,6 +89,13 @@
 
 (define _SDL_AudioFormat _uint16)
 (define _SDL_AudioCallback (_fun _pointer (_ptr io _uint8) _int -> _void))
+(define AUDIO_S16LSB #x8010)
+(define AUDIO_S16MSB #x9010)
+(define AUDIO_S16 AUDIO_S16LSB)
+(define AUDIO_S16SYS
+  (if (= SDL_BYTEORDER SDL_LIL_ENDIAN)
+      AUDIO_S16LSB
+      AUDIO_S16MSB))
 (define SDL_AudioFilter _pointer)
 (define SDL_AudioDeviceID _uint32)
 
@@ -98,7 +105,6 @@
    [channels _uint8]
    [silence _uint8]
    [samples _uint16]
-   [padding _uint16]
    [size _uint32]
    [callback _SDL_AudioCallback]
    [userdata _pointer]))

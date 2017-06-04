@@ -332,7 +332,11 @@
 ;extern DECLSPEC const char *SDLCALL SDL_GetCurrentAudioDriver(void);
 (define-sdl SDL_GetCurrentAudioDriver (_fun -> _string))
 ;extern DECLSPEC int SDLCALL SDL_OpenAudio(SDL_AudioSpec * desired, SDL_AudioSpec * obtained);
-(define-sdl SDL_OpenAudio (_fun _SDL_AudioSpec-pointer _SDL_AudioSpec-pointer -> _int))
+(define-sdl SDL_OpenAudio (_fun _SDL_AudioSpec-pointer [out : (_ptr o _SDL_AudioSpec)]
+                                -> [ret : _bool]
+                                -> (let ()
+                                     (sdl-error ret)
+                                     out)))
 ;extern DECLSPEC int SDLCALL SDL_GetNumAudioDevices(int iscapture);
 (define-sdl SDL_GetNumAudioDevices (_fun _int -> _int))
 ;extern DECLSPEC const char *SDLCALL SDL_GetAudioDeviceName(int index, int iscapture);
